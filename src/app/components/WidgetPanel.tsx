@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause } from 'lucide-react';
+import MusicPlayer from './widgets/music/MusicPlayer';
+
 
 export default function WidgetPanel() {
   const [open, setOpen] = useState(false);
@@ -147,30 +149,16 @@ export default function WidgetPanel() {
               </div>
             </WidgetCard>
 
-            <WidgetCard>
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <div className="font-medium text-sm"> Futuristic Beats</div>
-                  <div className="text-xs opacity-70">By SynthCore</div>
-                </div>
-                <button
-                  onClick={togglePlay}
-                  className="rounded-full bg-white/20 p-2 hover:bg-white/30 transition"
-                >
-                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                </button>
-              </div>
-              <audio
-                ref={audioRef}
-                src="/music/sample.mp3"
-                loop
-                preload="auto"
-              />
-            </WidgetCard>
+<WidgetCard>
+  <MusicPlayer />
+</WidgetCard>
+
+
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
+    
   );
 }
 

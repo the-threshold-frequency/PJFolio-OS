@@ -60,8 +60,8 @@ export default function HomePage() {
     <>
       {!booted && <BootScreen onFinish={() => setBooted(true)} />}
       {booted && (
-        <div
-          className="h-screen w-screen relative transition-colors duration-700 ease-in-out"
+      <div
+        className="h-[100dvh] w-screen relative transition-colors duration-700 ease-in-out"
           style={{ backgroundColor: bgColor }}
         >
           <CustomCursor />
@@ -79,8 +79,8 @@ export default function HomePage() {
             initial={{ opacity: 0, scaleX: 0.2 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ duration: 0.7, ease: [0.65, 0, 0.35, 1], delay: 0.7 }}
-            className="origin-center absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full z-50 backdrop-blur-md bg-white/10 border border-white/20 shadow-xl"
-          >
+            className="origin-center absolute bottom-[5%] left-1/2 -translate-x-1/2 px-6 py-3 rounded-full z-50 backdrop-blur-md bg-white/10 border border-white/20 shadow-xl"
+            >
             <motion.div
               initial="hidden"
               animate="visible"
@@ -136,7 +136,7 @@ function Section({ title, delay }: { title: string; delay: number }) {
   return (
     <motion.section
       ref={ref}
-      className="snap-start min-w-full h-screen flex items-center justify-center text-white text-6xl font-bold px-6"
+      className="snap-start min-w-full h-[100dvh] flex items-center justify-center text-white text-6xl font-bold px-6"
       initial={{ opacity: 0, x: 200 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.6, delay }}

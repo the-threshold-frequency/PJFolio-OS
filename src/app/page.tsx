@@ -7,6 +7,8 @@ import { Home, User, Folder, Mail } from 'lucide-react';
 import CustomCursor from './components/CustomCursor';
 import BootScreen from './components/BootScreen';
 import WidgetPanel from './components/WidgetPanel';
+import { isTouchDevice } from './utils/isTouchDevice';
+
 
 const sections = [
   { id: 'home', title: 'Home', icon: Home, color: '#0f0f0f' },
@@ -15,11 +17,20 @@ const sections = [
   { id: 'contact', title: 'Contact', icon: Mail, color: '#1e2f2e' },
 ];
 
+
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [bgColor, setBgColor] = useState(sections[0].color);
   const [booted, setBooted] = useState(false);
+
+  const [showCursor, setShowCursor] = useState(false);
+
+useEffect(() => {
+  if (!isTouchDevice()) {
+    setShowCursor(true);
+  }
+}, []);
 
   useEffect(() => {
     if (!booted) return;
@@ -33,6 +44,7 @@ export default function HomePage() {
       container.scrollBy({ left: e.deltaY, behavior: 'smooth' });
     };
 
+    
     const handleScroll = () => {
       const scrollLeft = container.scrollLeft;
       const width = container.clientWidth;
@@ -65,7 +77,7 @@ export default function HomePage() {
         className="h-[100dvh] w-screen relative transition-colors duration-700 ease-in-out"
           style={{ backgroundColor: bgColor }}
         >
-          <CustomCursor />
+          {showCursor && <CustomCursor />}
 
 
           <main

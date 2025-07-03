@@ -18,6 +18,7 @@ const CustomCursor = () => {
     let lastTime = performance.now();
     let isClicking = false;
 
+    
     const handleMouseMove = (e: MouseEvent) => {
       const now = performance.now();
       const deltaTime = now - lastTime || 1;

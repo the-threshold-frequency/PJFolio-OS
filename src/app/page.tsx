@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { Home, User, Folder, Mail } from 'lucide-react';
 import CustomCursor from './components/CustomCursor';
 import BootScreen from './components/BootScreen';
+import WidgetPanel from './components/WidgetPanel';
 
 const sections = [
   { id: 'home', title: 'Home', icon: Home, color: '#0f0f0f' },
@@ -65,6 +66,8 @@ export default function HomePage() {
           style={{ backgroundColor: bgColor }}
         >
           <CustomCursor />
+
+
           <main
             ref={containerRef}
             className="flex overflow-x-scroll snap-x snap-mandatory no-scrollbar h-full w-full"
@@ -123,6 +126,8 @@ export default function HomePage() {
               })}
             </motion.div>
           </motion.div>
+          <WidgetPanel />
+
         </div>
       )}
     </>

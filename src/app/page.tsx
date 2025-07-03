@@ -11,7 +11,7 @@ import { isTouchDevice } from './utils/isTouchDevice';
 
 
 const sections = [
-  { id: 'home', title: 'Home', icon: Home, color: '#0f0f0f' },
+  { id: 'home', title: 'Hi, Preetraj Here', icon: Home, color: '#0f0f0f' },
   { id: 'about', title: 'About Me', icon: User, color: '#1e1e2f' },
   { id: 'projects', title: 'Projects', icon: Folder, color: '#2f1e2e' },
   { id: 'contact', title: 'Contact', icon: Mail, color: '#1e2f2e' },

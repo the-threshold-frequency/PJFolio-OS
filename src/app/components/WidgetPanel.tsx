@@ -87,9 +87,9 @@ export default function WidgetPanel() {
       {open && (
 <motion.div
   key="widget-panel"
-  initial={{ x: '100%', opacity: 0 }}
-  animate={{ x: 0, opacity: 1 }}
-  exit={{ x: '100%', opacity: 0 }}
+  initial={{ x: '100%' }}
+  animate={{ x: 0 }}
+  exit={{ x: '100%' }}
   transition={{ type: 'spring', stiffness: 180, damping: 20 }}
   ref={panelRef}
   onMouseEnter={() => (interactionOngoing.current = true)}
@@ -98,27 +98,9 @@ export default function WidgetPanel() {
     scheduleAutoClose();
   }}
   onTouchStart={() => (interactionOngoing.current = true)}
-  className="
-    fixed 
-    top-5 
-    z-[90] 
-    w-[90vw] 
-    sm:w-[340px] 
-    max-h-[80vh] 
-    flex 
-    flex-col 
-    gap-4 
-    text-white 
-    overflow-visible 
-    pointer-events-auto
-
-    left-1/2 
-    -translate-x-1/2 
-    sm:left-auto 
-    sm:translate-x-0 
-    sm:right-4 
-  "
+  className="fixed top-5 z-[90] w-[90vw] sm:w-[340px] max-h-[80vh] flex flex-col gap-4 text-white overflow-visible pointer-events-auto left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-4 will-change-transform will-change-[backdrop-filter]"
 >
+
 
           <motion.div
             initial="hidden"
@@ -144,23 +126,23 @@ export default function WidgetPanel() {
 
             <WidgetCard>
               <div className="text-sm">
-                👁️ <strong>Page Views:</strong> [Coming soon...]
+                 <strong>Page Views:</strong> [Coming soon...]
               </div>
             </WidgetCard>
 
             <WidgetCard>
               <div className="text-sm">
-                🎨 <strong>Theme:</strong> [Light / Dark]
+                 <strong>Theme:</strong> [Light / Dark]
               </div>
             </WidgetCard>
 
             <WidgetCard>
               <div className="text-sm">
-                📇 <strong>Quick Contact</strong>
+                 <strong>Quick Contact</strong>
                 <div className="mt-1 text-xs opacity-70 leading-tight">
-                  you@example.com
+                  preetrajhaldar2002@gmail.com
                   <br />
-                  +91 12345 67890
+                  +91 9674785422
                 </div>
               </div>
             </WidgetCard>
@@ -168,7 +150,7 @@ export default function WidgetPanel() {
             <WidgetCard>
               <div className="flex items-center justify-between gap-4">
                 <div className="flex-1">
-                  <div className="font-medium text-sm">🎧 Futuristic Beats</div>
+                  <div className="font-medium text-sm"> Futuristic Beats</div>
                   <div className="text-xs opacity-70">By SynthCore</div>
                 </div>
                 <button

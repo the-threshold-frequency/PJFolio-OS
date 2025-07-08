@@ -8,12 +8,13 @@ import CustomCursor from './components/CustomCursor';
 import BootScreen from './components/BootScreen';
 import WidgetPanel from './components/WidgetPanel';
 import { isTouchDevice } from './utils/isTouchDevice';
+import ProjectsSection from './components/sections/ProjectsSection';
 
 
 const sections = [
   { id: 'home', title: 'Hi, Preetraj Here', icon: Home, color: '#0f0f0f' },
   { id: 'about', title: 'About Me', icon: User, color: '#1e1e2f' },
-  { id: 'projects', title: 'Projects', icon: Folder, color: '#2f1e2e' },
+  { id: 'projects', title: 'Projects', icon: Folder, color: '#2f1e2e', isCustom: true },
   { id: 'contact', title: 'Contact', icon: Mail, color: '#1e2f2e' },
 ];
 
@@ -84,9 +85,13 @@ useEffect(() => {
             ref={containerRef}
             className="flex overflow-x-scroll snap-x snap-mandatory no-scrollbar h-full w-full"
           >
-            {sections.map((section, index) => (
+            {sections.map((section, index) =>
+            section.isCustom && section.id === 'projects' ? (
+            <ProjectsSection key={section.id} />
+            ) : (
               <Section key={section.id} title={section.title} delay={index * 0.2} />
-            ))}
+            )
+          )}
           </main>
 
           {/* Frosted Glass Wipe-In Navigation with Refined Animation */}

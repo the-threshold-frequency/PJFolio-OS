@@ -50,7 +50,7 @@ export default function MusicPlayer() {
   };
 
   const handleNext = () => {
-    setCurrentTrackIndex((prev) => {
+    setCurrentTrackIndex((prev: number) => {
       if (isShuffle) {
         let next;
         do {
@@ -65,7 +65,7 @@ export default function MusicPlayer() {
 
   const handlePrev = () => {
     setCurrentTrackIndex(
-      (prev) => (prev - 1 + playlist.length) % playlist.length
+      (prev: number) => (prev - 1 + playlist.length) % playlist.length
     );
     setCurrentTime(0);
   };

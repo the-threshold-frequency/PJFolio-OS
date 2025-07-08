@@ -9,6 +9,6 @@ export const playlist = [
     title: "Stoop Holiday",
     artist: "Schur",
     url: "/music/stoop-holiday.mp3",
-    duration: 134.4,
+    duration: 144.4,
   },
 ];

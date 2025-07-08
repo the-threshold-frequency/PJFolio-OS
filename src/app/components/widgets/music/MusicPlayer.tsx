@@ -1,17 +1,35 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { Play, Pause, SkipForward, SkipBack, Repeat, Shuffle, Volume2 } from 'lucide-react';
-import { playlist } from './MusicData';
+import {
+  Play,
+  Pause,
+  SkipForward,
+  SkipBack,
+  Repeat,
+  Shuffle,
+  Volume2,
+} from 'lucide-react';
+import { useMusicPlayer } from './music-context';
+import { useState, useEffect } from 'react';
+
 
 export default function MusicPlayer() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
-  const [currentTime, setCurrentTime] = useState(0);
+  const {
+    currentTrack,
+    isPlaying,
+    setIsPlaying,
+    currentTrackIndex,
+    setCurrentTrackIndex,
+    volume,
+    setVolume,
+    currentTime,
+    setCurrentTime,
+    playlist,
+    audioRef,
+  } = useMusicPlayer();
 
-  const currentTrack = playlist[currentTrackIndex];
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [isLoop, setIsLoop] = useState(false);
 
   const togglePlay = () => {
     if (!audioRef.current) return;
@@ -23,19 +41,32 @@ export default function MusicPlayer() {
     setIsPlaying(!isPlaying);
   };
 
-  const handleTimeUpdate = () => {
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const seekTime = parseFloat(e.target.value);
     if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
+      audioRef.current.currentTime = seekTime;
+      setCurrentTime(seekTime);
     }
   };
 
   const handleNext = () => {
-    setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
+    setCurrentTrackIndex((prev) => {
+      if (isShuffle) {
+        let next;
+        do {
+          next = Math.floor(Math.random() * playlist.length);
+        } while (next === prev);
+        return next;
+      }
+      return (prev + 1) % playlist.length;
+    });
     setCurrentTime(0);
   };
 
   const handlePrev = () => {
-    setCurrentTrackIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
+    setCurrentTrackIndex(
+      (prev) => (prev - 1 + playlist.length) % playlist.length
+    );
     setCurrentTime(0);
   };
 
@@ -47,87 +78,87 @@ export default function MusicPlayer() {
     }
   };
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (audioRef.current) {
-      const seekTime = parseFloat(e.target.value);
-      audioRef.current.currentTime = seekTime;
-      setCurrentTime(seekTime);
-    }
-  };
-
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.volume = volume;
-    if (isPlaying) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-
-    const onEnded = () => {
-      handleNext();
-    };
-
-    audio.addEventListener('ended', onEnded);
-    return () => {
-      audio.removeEventListener('ended', onEnded);
-    };
-  }, [currentTrackIndex, isPlaying]);
+  if (audioRef.current) {
+    audioRef.current.loop = isLoop;
+  }
+}, [isLoop]);
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <audio
-        ref={audioRef}
-        src={currentTrack.url}
-        onTimeUpdate={handleTimeUpdate}
-        preload="auto"
-      />
-
       <div className="flex justify-between items-center text-sm font-medium">
         <div>
-          {currentTrack.title} — <span className="opacity-70">{currentTrack.artist}</span>
+          {currentTrack.title} —{' '}
+          <span className="opacity-70">{currentTrack.artist}</span>
         </div>
         <div className="text-xs opacity-50">
           {formatTime(currentTime)} / {formatTime(currentTrack.duration)}
         </div>
       </div>
 
-      <input
-        type="range"
-        min="0"
-        max={currentTrack.duration}
-        value={currentTime}
-        step="0.1"
-        onChange={handleSeek}
-        className="w-full h-1 rounded bg-white/20 appearance-none cursor-pointer accent-white"
-      />
+      {/* Music Progress Bar */}
+      <div className="relative w-full h-1 rounded bg-white/20">
+        <div
+          className="absolute top-0 left-0 h-1 bg-white rounded"
+          style={{
+            width: `${(currentTime / currentTrack.duration) * 100}%`,
+          }}
+        />
+        <input
+          type="range"
+          min="0"
+          max={currentTrack.duration}
+          value={currentTime}
+          step="0.1"
+          onChange={handleSeek}
+          className="absolute w-full h-1 opacity-0 cursor-pointer"
+        />
+      </div>
 
       <div className="flex items-center justify-between mt-2">
-        <button><Shuffle size={16} className="opacity-50" /></button>
-        <button onClick={handlePrev}><SkipBack size={16} className="opacity-50" /></button>
+        <button onClick={() => setIsShuffle((s) => !s)}>
+          <Shuffle
+            size={16}
+            className={`${
+              isShuffle ? 'opacity-100 brightness-150' : 'opacity-50'
+            }`}
+          />
+        </button>
+        <button onClick={handlePrev}>
+          <SkipBack size={16} className="opacity-50" />
+        </button>
         <button
           className="bg-white/10 border border-white/10 rounded-full p-2"
           onClick={togglePlay}
         >
           {isPlaying ? <Pause size={16} /> : <Play size={16} />}
         </button>
-        <button onClick={handleNext}><SkipForward size={16} className="opacity-50" /></button>
-        <button><Repeat size={16} className="opacity-50" /></button>
+        <button onClick={handleNext}>
+          <SkipForward size={16} className="opacity-50" />
+        </button>
+<button onClick={() => setIsLoop((prev) => !prev)}>
+  <Repeat size={16} className={isLoop ? "text-white" : "opacity-50"} />
+</button>
       </div>
 
+      {/* Volume Bar */}
       <div className="flex items-center gap-2 mt-2">
         <Volume2 size={14} className="opacity-50" />
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-          className="w-full h-1 rounded bg-white/20 appearance-none cursor-pointer accent-white"
-        />
+        <div className="relative w-full h-1 rounded bg-white/20">
+          <div
+            className="absolute top-0 left-0 h-1 bg-white rounded"
+            style={{ width: `${volume * 100}%` }}
+          />
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolumeChange}
+            className="absolute w-full h-1 opacity-0 cursor-pointer"
+          />
+        </div>
       </div>
     </div>
   );

@@ -11,4 +11,10 @@ export const playlist = [
     url: "/music/stoop-holiday.mp3",
     duration: 144.4,
   },
+    {
+    title: "Redbone",
+    artist: "Childish Gambino",
+    url: "/music/Redbone.mp3",
+    duration: 326.2,
+  },
 ];

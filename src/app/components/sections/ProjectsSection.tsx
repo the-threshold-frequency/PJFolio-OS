@@ -195,7 +195,7 @@ export default function ProjectsSection() {
     </div>
 
     {/* Desktop Tabs */}
-    <div className="hidden sm:flex gap-2 overflow-x-auto max-w-[70%]">
+    <div className="hidden sm:flex gap-2 overflow-x-auto max-w-[90%]">
       {openedProjects.map((proj, idx) => (
         <button
           key={proj.title}

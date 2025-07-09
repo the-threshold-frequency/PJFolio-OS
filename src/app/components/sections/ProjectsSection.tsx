@@ -257,32 +257,34 @@ export default function ProjectsSection() {
       transition={{ duration: 0.3 }}
       className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4"
     >
-      <div className="bg-zinc-900 border border-white/20 rounded-lg p-4 sm:p-6 w-full max-w-md text-white relative flex flex-col md:flex-row gap-4 overflow-y-auto max-h-[80vh]">
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold mb-2">{activeProject.title}</h3>
-          <p className="text-sm text-gray-300">{activeProject.description}</p>
-        </div>
 
-        {activeProject.techStack && (
-          <div className="flex flex-wrap gap-2">
-            {activeProject.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-1 text-xs bg-white/10 rounded-full text-gray-200"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        )}
 
-        <button
-          onClick={() => setShowInfo(false)}
-          className="absolute top-2 right-2 text-gray-400 hover:text-white"
+<div className="bg-zinc-900 border border-white/20 rounded-lg p-4 sm:p-6 w-full max-w-md text-white relative overflow-y-auto max-h-[80vh]">
+  <button
+    onClick={() => setShowInfo(false)}
+    className="absolute top-2 right-2 text-gray-400 hover:text-white"
+  >
+    <X size={18} />
+  </button>
+
+  <h3 className="text-lg font-semibold mb-2">{activeProject.title}</h3>
+
+  <p className="text-sm text-gray-300 mb-4">{activeProject.description}</p>
+
+  {activeProject.techStack && (
+    <div className="flex flex-wrap gap-2">
+      {activeProject.techStack.map((tech) => (
+        <span
+          key={tech}
+          className="px-3 py-1 text-xs sm:text-sm bg-white/10 rounded-full text-gray-200 border border-white/10"
         >
-          <X size={18} />
-        </button>
-      </div>
+          {tech}
+        </span>
+      ))}
+    </div>
+  )}
+</div>
+
     </motion.div>
   )}
 </AnimatePresence>
